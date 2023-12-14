@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEST</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column; 
+        }
+
+        #start-button {
+            font-size: 16px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 10px; 
+            background-color: white;
+        }
+
+        .info {
+            text-align: center;
+            margin-bottom: 10px; 
+        }
+
+        .number-images {
+            display: flex;
+            justify-content: space-between;
+            width: 300px;
+        }
+
+        .number-images img {
+            max-width: 100%;
+            visibility: hidden;
+            height: 50px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="info" id="audio-info"></div>
+<audio id="audio-player"></audio>
+<button id="start-button">Start</button>
+<div class="number-images">
+    <img id="number-image-1" alt="Number 1 Image" src="img/1.png">
+    <img id="number-image-2" alt="Number 2 Image" src="img/2.png">
+    <img id="number-image-3" alt="Number 3 Image" src="img/3.png">
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const audioFiles = ['source/1.m4a', 'source/2.m4a', 'source/3.m4a', 'source/notFive3.m4a', 'source/yes1hi.m4a', 'source/2hi.m4a']; 
+        const audio = document.getElementById('audio-player');
+        const audioInfo = document.getElementById('audio-info');
+        const startButton = document.getElementById('start-button');
+        const numberImages = document.querySelectorAll('.number-images img');
+        let remainingAudioFiles = [...audioFiles];
+        let currentDelay;
+
+        function playRandomAudio() {
+            if (remainingAudioFiles.length === 0) {
+                audioInfo.innerText = 'All audio files played.';
+                return;
+            }
+
+            const currentIndex = Math.floor(Math.random() * remainingAudioFiles.length);
+            const selectedAudio = remainingAudioFiles[currentIndex];
+
+            const currentNumber = getNumberFromTitle(selectedAudio);
+            remainingAudioFiles = remainingAudioFiles.filter(file => {
+                const numberInFile = getNumberFromTitle(file);
+                return numberInFile !== currentNumber;
+            });
+
+            audio.src = selectedAudio;
+            audio.play()
+                .then(() => {
+                    audioInfo.innerText = `Now playing: ${selectedAudio}`;
+                    currentDelay = Math.floor(Math.random() * 4000) + 1000; 
+                    displayNumberImage(currentNumber);
+                })
+                .catch(error => {
+                    console.error('Error playing audio:', error);
+                });
+        }
+
+        function startButtonClickHandler() {
+            playRandomAudio();
+        }
+
+        function displayNumberImage(number) {
+            const imageToShow = document.getElementById(`number-image-${number}`);
+            if (imageToShow) {
+                imageToShow.style.visibility = 'visible'; 
+            }
+        }
+
+        audio.addEventListener('ended', function () {
+            setTimeout(playRandomAudio, currentDelay);
+        });
+
+        startButton.addEventListener('click', startButtonClickHandler);
+
+        function getNumberFromTitle(title) {
+            const match = title.match(/\d+/);
+            return match ? match[0] : null;
+        }
+    });
+</script>
+
+</body>
+</html>
