@@ -1,0 +1,37 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 100px;
+}
+
+label {
+    margin: 10px;
+}
+
+input {
+    width: 80px;
+    text-align: center;
+    font-weight: bold;
+    margin:2px;
+}
+
+#result {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+#button {
+    font-size: 16px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 30px; 
+    background-color: white;
+}
+
+#gameResult{
+    margin-top: 50px;
+}
+
+span{
+    font-weight: bold;
+}

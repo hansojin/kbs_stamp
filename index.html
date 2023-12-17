@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STAMP</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <script src="srcList.js"></script>
+
+    <label for="Lv1">Lv1</label>
+    <input id="Lv1" value="3" onkeyup="calculateTotal()" /><br />
+    <label for="Lv2">Lv2</label>
+    <input id="Lv2" value="3" onkeyup="calculateTotal()" /><br />
+    <label for="Lv3">Lv3</label>
+    <input id="Lv3" value="4" onkeyup="calculateTotal()" /><br />
+    <label for="Lv4">Lv4</label>
+    <input id="Lv4" value="10" onkeyup="calculateTotal()" /><br />
+    <div id="total">총 : 20문제</div>
+    <script>
+    let levels = {
+        Lv1Value: 0,
+        Lv2Value: 0,
+        Lv3Value: 0,
+        Lv4Value: 0
+    };
+
+    function calculateTotal() {
+        levels.Lv1Value = parseFloat(document.getElementById("Lv1").value) || 0;
+        levels.Lv2Value = parseFloat(document.getElementById("Lv2").value) || 0;
+        levels.Lv3Value = parseFloat(document.getElementById("Lv3").value) || 0;
+        levels.Lv4Value = parseFloat(document.getElementById("Lv4").value) || 0;
+        var total = levels.Lv1Value + levels.Lv2Value + levels.Lv3Value + levels.Lv4Value;        
+        document.getElementById("total").innerHTML = "총 : " + total + "문제";
+        return total;
+    }
+    </script>
+    <button id="button" onclick="gameStart()">START</button><br>
+    <div id="gameResult"></div><br>
+    
+    <script>
+    let randOrder;      // 문제 순서 list 
+    let currentIdx = 0;
+    let currentFile= null;
+    let l=[];
+    let p=[];
+
+
+    function gameStart(){
+        var btn=document.getElementById("button");
+        btn.innerHTML = "게임진행중";
+        btn.disabled=true;
+
+        var total = calculateTotal();
+        orderShuffle(total);
+
+        levelOne();
+    }
+
+    function sortArr(arr){
+        arr.sort(function(a,b){
+            return a-b;
+        });
+    }
+
+    function gameEnd(){
+        sortArr(l);
+        sortArr(p);
+        const lResult = `<span>지역</span><br> ${l.join(', ')}`;
+        const pResult = `<span>비례</span><br> ${p.join(', ')}`;
+        document.getElementById("gameResult").innerHTML = `<span><< 결과 >></span><br>${lResult}<br><br>${pResult}`;
+
+        var btn=document.getElementById("button");
+        btn.innerHTML = "RESET";
+        btn.disabled=false;
+
+        btn.onclick = function () {
+        location.reload();
+    };
+    }
+    
+    function orderShuffle(total) {   // 문제 번호 랜덤 추출
+        var numbers = Array.from({ length: 50 }, (_, i) => i + 1);
+        for (var i = numbers.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var temp = numbers[i];
+          numbers[i] = numbers[j];
+          numbers[j] = temp;
+        }
+        randOrder = numbers.slice(0, total);
+        console.log(randOrder);
+    }
+
+    function setDelay(start,end){
+        const delay = Math.floor(Math.random() * (end-start)*1000) + start*1000;
+        return delay;
+    }
+
+    function playAudio(src) {
+        var audio = new Audio('src/' + src + '.mp3');
+        audio.play();
+        return new Promise(resolve => {
+            audio.addEventListener('ended', resolve);
+        });
+    }
+    function playAudio2(src) {
+        var audio = new Audio('src/' + src);
+        audio.play();
+        return new Promise(resolve => {
+            audio.addEventListener('ended', resolve);
+        });
+    }
+
+    async function levelOneTwo(lv,start,end){
+        for(var i =0;i<lv;i++){
+            var paddedNumber = randOrder[currentIdx].toString().padStart(2, '0');
+            if (randOrder[currentIdx]<=20){
+                currentFile = 'l_' + paddedNumber;
+                l.push(randOrder[currentIdx]-1);
+            }else{
+                currentFile = 'p_' + paddedNumber;
+                p.push(randOrder[currentIdx]-19);
+            }
+            console.log(currentFile);
+            await playAudio(currentFile);
+            const delay = setDelay(start, end);
+            await new Promise(resolve => setTimeout(resolve, delay));
+            currentIdx++;
+        }
+    }
+
+    async function levelThreeFour(lv,start,end){
+        for(var i =0;i<lv;i++){
+            var curListName = `list${randOrder[currentIdx]}`;
+            var currentList = lists[curListName];
+            var randomIndex = Math.floor(Math.random() * currentList.length);
+            var currentFile = currentList[randomIndex];
+            if (randOrder[currentIdx]<=20){
+                l.push(randOrder[currentIdx]);
+            }else{
+                p.push(randOrder[currentIdx]-20);
+            }
+            console.log(currentFile);
+            await playAudio2(currentFile);
+            const delay = setDelay(start, end);
+            await new Promise(resolve => setTimeout(resolve, delay));
+            currentIdx++;
+        }
+    }
+    
+    async function levelOne(){
+        await levelOneTwo(levels.Lv1Value,1,1.5);
+        levelTwo();
+    }
+    async function levelTwo(){
+        await levelOneTwo(levels.Lv2Value,0.8,1.2);
+        levelThree();
+    }
+    async function levelThree(){
+        await levelThreeFour(levels.Lv3Value,0.3,0.7);
+        levelFour();
+    }
+    async function levelFour(){
+        await levelThreeFour(levels.Lv4Value,0.05,0.3);
+        gameEnd();
+    }
+    
+    </script>
+  </body>
+</html>
