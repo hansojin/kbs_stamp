@@ -19,81 +19,86 @@
     <input id="Lv4" value="10" onkeyup="calculateTotal()" /><br />
     <div id="total">총 : 20문제</div>
     <script>
-    let levels = {
+      let levels = {
         Lv1Value: 0,
         Lv2Value: 0,
         Lv3Value: 0,
-        Lv4Value: 0
-    };
+        Lv4Value: 0,
+      };
 
-    function calculateTotal() {
+      function calculateTotal() {
         levels.Lv1Value = parseFloat(document.getElementById("Lv1").value) || 0;
         levels.Lv2Value = parseFloat(document.getElementById("Lv2").value) || 0;
         levels.Lv3Value = parseFloat(document.getElementById("Lv3").value) || 0;
         levels.Lv4Value = parseFloat(document.getElementById("Lv4").value) || 0;
-        var total = levels.Lv1Value + levels.Lv2Value + levels.Lv3Value + levels.Lv4Value;        
+        var total =
+          levels.Lv1Value + levels.Lv2Value + levels.Lv3Value + levels.Lv4Value;
         document.getElementById("total").innerHTML = "총 : " + total + "문제";
         return total;
-    }
+      }
     </script>
-    <button id="button" onclick="gameStart()">START</button><br>
-    <div id="gameResult"></div><br>
-    
+    <button id="button" onclick="gameStart()">START</button><br />
+    <div id="gameResult"></div>
+    <br />
+
     <script>
-    let randOrder;      // 문제 순서 list 
-    let currentIdx = 0;
-    let currentFile= null;
-    let l=[];
-    let p=[];
+      let randOrder; // 문제 순서 list
+      let currentIdx = 0;
+      let currentFile = null;
+      let l = [];
+      let p = [];
 
-    function playOp(op){
-        const audio = new Audio('src/op/' + op + '.mp3');
+      function playOp(op) {
+        const audio = new Audio("src/op/" + op + ".mp3");
 
-        return new Promise(resolve => {
-            audio.addEventListener('ended', () => {
-                resolve();
-            });
-            audio.play();
+        return new Promise((resolve) => {
+          audio.addEventListener("ended", () => {
+            resolve();
+          });
+          audio.play();
         });
-    }
+      }
 
-    async function gameStart(){
-        var btn=document.getElementById("button");
+      async function gameStart() {
+        var btn = document.getElementById("button");
         btn.innerHTML = "게임진행중";
-        btn.disabled=true;
+        btn.disabled = true;
 
         var total = calculateTotal();
         orderShuffle(total);
 
         await playOp('startOp');
+
         levelOne();
-    }
+      }
 
-    function sortArr(arr){
-        arr.sort(function(a,b){
-            return a-b;
+      function sortArr(arr) {
+        arr.sort(function (a, b) {
+          return a - b;
         });
-    }
+      }
 
-    async function gameEnd(){
+      async function gameEnd() {
         sortArr(l);
         sortArr(p);
-        const lResult = `<span>지역</span><br> ${l.join(', ')}`;
-        const pResult = `<span>비례</span><br> ${p.join(', ')}`;
-        document.getElementById("gameResult").innerHTML = `<span><< 결과 >></span><br>${lResult}<br><br>${pResult}`;
+        const lResult = `<span>지역</span><br> ${l.join(", ")}`;
+        const pResult = `<span>비례</span><br> ${p.join(", ")}`;
+        document.getElementById(
+          "gameResult"
+        ).innerHTML = `<span><< 결과 >></span><br>${lResult}<br><br>${pResult}`;
 
-        var btn=document.getElementById("button");
+        var btn = document.getElementById("button");
         btn.innerHTML = "RESET";
-        btn.disabled=false;
+        btn.disabled = false;
 
-        await playOp('endOp');
-        
+        await playOp("endOp");
+
         btn.onclick = function () {
-        location.reload();
-    };
-    }
-    
-    function orderShuffle(total) {   
+          location.reload();
+        };
+      }
+
+      function orderShuffle(total) {
         var numbers = Array.from({ length: 50 }, (_, i) => i + 1);
         for (var i = numbers.length - 1; i > 0; i--) {
           var j = Math.floor(Math.random() * (i + 1));
@@ -103,79 +108,93 @@
         }
         randOrder = numbers.slice(0, total);
         console.log(randOrder);
-    }
+      }
 
-    function setDelay(start,end){
-        const delay = Math.floor(Math.random() * (end-start)*1000) + start*1000;
+      function setDelay(start, end) {
+        const delay =
+          Math.floor(Math.random() * (end - start) * 1000) + start * 1000;
         return delay;
-    }
+      }
 
-    function playAudio(src, playbackRate = 1.0) {
-        const fileExtension = src.includes('.') ? '' : '.mp3';
-        const audio = new Audio('src/' + src + fileExtension);
-        return new Promise(resolve => {
-            audio.playbackRate = playbackRate;
-            audio.addEventListener('ended', () => {
-                resolve();  
-            });
-            audio.play();
+      function playAudio(src, playbackRate = 1.0) {
+        const fileExtension = src.includes(".") ? "" : ".mp3";
+        const audio = new Audio("src/" + src + fileExtension);
+        return new Promise((resolve) => {
+          audio.playbackRate = playbackRate;
+          audio.addEventListener("ended", () => {
+            resolve();
+          });
+          audio.play();
         });
-    }
-    
-    async function levelOneTwo(lv,start,end,playbackRate){
-        for(var i =0;i<lv;i++){
+      }
+
+      async function levelOneTwo(lv, start, end, playbackRate) {
+        for (var i = 0; i < lv; i++) {
+          var paddedNumber = randOrder[currentIdx].toString().padStart(2, "0");
+          if (randOrder[currentIdx] <= 20) {
+            currentFile = "l_" + paddedNumber;
+            l.push(randOrder[currentIdx] - 1);
+          } else {
+            currentFile = "p_" + paddedNumber;
+            p.push(randOrder[currentIdx] - 19);
+          }
+          console.log(currentFile);
+          await playAudio(currentFile, playbackRate);
+          const delay = setDelay(start, end);
+          await new Promise((resolve) => setTimeout(resolve, delay));
+          currentIdx++;
+        }
+      }
+
+      async function levelThreeFour(lv, start, end, playbackRate) {
+        for (var i = 0; i < lv; i++) {
+          var curListName = `list${randOrder[currentIdx]}`;
+          var currentList = lists[curListName];
+          var randomValue = Math.floor(Math.random() * 4);
+          if (randomValue === 0) {
             var paddedNumber = randOrder[currentIdx].toString().padStart(2, '0');
             if (randOrder[currentIdx]<=20){
                 currentFile = 'l_' + paddedNumber;
-                l.push(randOrder[currentIdx]-1);
+                l.push(randOrder[currentIdx] - 1);
             }else{
                 currentFile = 'p_' + paddedNumber;
-                p.push(randOrder[currentIdx]-19);
+                p.push(randOrder[currentIdx] - 19);
             }
-            console.log(currentFile);
-            await playAudio(currentFile,playbackRate);
-            const delay = setDelay(start, end);
-            await new Promise(resolve => setTimeout(resolve, delay));
-            currentIdx++;
-        }
-    }
-
-    async function levelThreeFour(lv,start,end,playbackRate){
-        for(var i =0;i<lv;i++){
-            var curListName = `list${randOrder[currentIdx]}`;
-            var currentList = lists[curListName];
+          } else {
             var randomIndex = Math.floor(Math.random() * currentList.length);
             var currentFile = currentList[randomIndex];
-            if (randOrder[currentIdx]<=20){
-                l.push(randOrder[currentIdx]);
-            }else{
-                p.push(randOrder[currentIdx]-20);
+          
+            if (randOrder[currentIdx] <= 20) {
+              l.push(randOrder[currentIdx]);
+            } else {
+              p.push(randOrder[currentIdx] - 20);
             }
-            console.log(currentFile);
-            await playAudio(currentFile,playbackRate);
-            const delay = setDelay(start, end);
-            await new Promise(resolve => setTimeout(resolve, delay));
-            currentIdx++;
         }
-    }
-    
-    async function levelOne(){
-        await levelOneTwo(levels.Lv1Value,1,1.5,1.0);
+            console.log(currentFile);
+            await playAudio(currentFile, playbackRate);
+            const delay = setDelay(start, end);
+            await new Promise((resolve) => setTimeout(resolve, delay));
+            currentIdx++;
+          
+        }
+      }
+
+      async function levelOne() {
+        await levelOneTwo(levels.Lv1Value, 1, 1.5, 1.0);
         levelTwo();
-    }
-    async function levelTwo(){
-        await levelOneTwo(levels.Lv2Value,0.8,1.2,1.2);
+      }
+      async function levelTwo() {
+        await levelOneTwo(levels.Lv2Value, 0.8, 1.2, 1.2);
         levelThree();
-    }
-    async function levelThree(){
-        await levelThreeFour(levels.Lv3Value,0.3,0.7,1.5);
+      }
+      async function levelThree() {
+        await levelThreeFour(levels.Lv3Value, 0.3, 0.7, 1.5);
         levelFour();
-    }
-    async function levelFour(){
-        await levelThreeFour(levels.Lv4Value,0.05,0.3,2.0);
+      }
+      async function levelFour() {
+        await levelThreeFour(levels.Lv4Value, 0.05, 0.3, 2.0);
         gameEnd();
-    }
-    
+      }
     </script>
   </body>
 </html>
