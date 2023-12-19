@@ -68,6 +68,7 @@
         orderShuffle(total);
 
         await playOp('startOp');
+        // await playOp('testOp');
 
         levelOne();
       }
@@ -133,10 +134,10 @@
           var paddedNumber = randOrder[currentIdx].toString().padStart(2, "0");
           if (randOrder[currentIdx] <= 20) {
             currentFile = "l_" + paddedNumber;
-            l.push(randOrder[currentIdx] - 1);
+            l.push(randOrder[currentIdx] );
           } else {
             currentFile = "p_" + paddedNumber;
-            p.push(randOrder[currentIdx] - 19);
+            p.push(randOrder[currentIdx] - 20);
           }
           console.log(currentFile);
           await playAudio(currentFile, playbackRate);
@@ -155,21 +156,19 @@
             var paddedNumber = randOrder[currentIdx].toString().padStart(2, '0');
             if (randOrder[currentIdx]<=20){
                 currentFile = 'l_' + paddedNumber;
-                l.push(randOrder[currentIdx] - 1);
             }else{
                 currentFile = 'p_' + paddedNumber;
-                p.push(randOrder[currentIdx] - 19);
             }
           } else {
             var randomIndex = Math.floor(Math.random() * currentList.length);
             var currentFile = currentList[randomIndex];
-          
+          }
             if (randOrder[currentIdx] <= 20) {
               l.push(randOrder[currentIdx]);
             } else {
               p.push(randOrder[currentIdx] - 20);
             }
-        }
+        
             console.log(currentFile);
             await playAudio(currentFile, playbackRate);
             const delay = setDelay(start, end);
