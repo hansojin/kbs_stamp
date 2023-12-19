@@ -16,14 +16,17 @@
     <label for="Lv3">Lv3</label>
     <input id="Lv3" value="4" onkeyup="calculateTotal()" /><br />
     <label for="Lv4">Lv4</label>
-    <input id="Lv4" value="10" onkeyup="calculateTotal()" /><br />
-    <div id="total">총 : 20문제</div>
+    <input id="Lv4" value="5" onkeyup="calculateTotal()" /><br />
+    <label for="Lv4">Lv5</label>
+    <input id="Lv5" value="5" onkeyup="calculateTotal()" /><br /><br />
+    <div id="total" style="font-weight: bold;">총 : 20문제</div>
     <script>
       let levels = {
         Lv1Value: 0,
         Lv2Value: 0,
         Lv3Value: 0,
         Lv4Value: 0,
+        Lv5Value: 0,
       };
 
       function calculateTotal() {
@@ -31,8 +34,9 @@
         levels.Lv2Value = parseFloat(document.getElementById("Lv2").value) || 0;
         levels.Lv3Value = parseFloat(document.getElementById("Lv3").value) || 0;
         levels.Lv4Value = parseFloat(document.getElementById("Lv4").value) || 0;
+        levels.Lv5Value = parseFloat(document.getElementById("Lv5").value) || 0;
         var total =
-          levels.Lv1Value + levels.Lv2Value + levels.Lv3Value + levels.Lv4Value;
+          levels.Lv1Value + levels.Lv2Value + levels.Lv3Value + levels.Lv4Value + levels.Lv5Value;
         document.getElementById("total").innerHTML = "총 : " + total + "문제";
         return total;
       }
@@ -129,7 +133,7 @@
         });
       }
 
-      async function levelOneTwo(lv, start, end, playbackRate) {
+      async function levelOneTwo(lv, delay, playbackRate) {
         for (var i = 0; i < lv; i++) {
           var paddedNumber = randOrder[currentIdx].toString().padStart(2, "0");
           if (randOrder[currentIdx] <= 20) {
@@ -141,13 +145,12 @@
           }
           console.log(currentFile);
           await playAudio(currentFile, playbackRate);
-          const delay = setDelay(start, end);
           await new Promise((resolve) => setTimeout(resolve, delay));
           currentIdx++;
         }
       }
 
-      async function levelThreeFour(lv, start, end, playbackRate) {
+      async function levelThreeToFive(lv, delay, playbackRate) {
         for (var i = 0; i < lv; i++) {
           var curListName = `list${randOrder[currentIdx]}`;
           var currentList = lists[curListName];
@@ -171,7 +174,6 @@
         
             console.log(currentFile);
             await playAudio(currentFile, playbackRate);
-            const delay = setDelay(start, end);
             await new Promise((resolve) => setTimeout(resolve, delay));
             currentIdx++;
           
@@ -179,19 +181,23 @@
       }
 
       async function levelOne() {
-        await levelOneTwo(levels.Lv1Value, 1, 1.5, 1.0);
+        await levelOneTwo(levels.Lv1Value, 0.5, 1.0);
         levelTwo();
       }
       async function levelTwo() {
-        await levelOneTwo(levels.Lv2Value, 0.8, 1.2, 1.2);
+        await levelOneTwo(levels.Lv2Value, 0.2, 1.2);
         levelThree();
       }
       async function levelThree() {
-        await levelThreeFour(levels.Lv3Value, 0.3, 0.7, 1.5);
+        await levelThreeToFive(levels.Lv3Value, 0.1, 1.5);
         levelFour();
       }
       async function levelFour() {
-        await levelThreeFour(levels.Lv4Value, 0.05, 0.3, 2.0);
+        await levelThreeToFive(levels.Lv4Value, 0.05, 1.8);
+        levelFive();
+      }
+      async function levelFive() {
+        await levelThreeToFive(levels.Lv4Value, 0, 2.0);
         gameEnd();
       }
     </script>
