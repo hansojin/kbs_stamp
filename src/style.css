@@ -35,3 +35,7 @@ input {
 span{
     font-weight: bold;
 }
+
+#questionVersion{
+    background-color: white;
+}
