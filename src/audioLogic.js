@@ -1,8 +1,9 @@
 let randOrder; // 문제 순서 list
 let currentIdx = 0;
+let currentRound=1;
 let currentFile = null;
-let l = [];
-let p = [];
+var l = [];
+var p = [];
 
 function playOp(op) {
     const audio = new Audio("src/audio/op/" + op + ".mp3");
@@ -15,18 +16,70 @@ function playOp(op) {
     });
 }
 
-async function gameStart() {
+function btnStart(){
     var btn = document.getElementById("button");
-    btn.innerHTML = "게임진행중";
+    btn.innerHTML = "게임 진행 중";
     btn.disabled = true;
+    gameStart(currentRound,globalRound);
+    
+}
+async function gameStart(currentRound,globalRound) {
+    console.log("check:" + currentRound);
+    var total = 0;
+    if (currentRound<=globalRound){
+        for (var lv = 1; lv <= 5; lv++) {
+            total+=parseInt(document.getElementById(`Round${currentRound}_Lv${lv}`).value, 10);
+        }
+        console.log(total)   
+    }
+    if (currentRound>1)
+        printResult(currentRound-1);
+    l=[];
+    p=[];
+    randOrder=[]; 
+    currentIdx = 0;
 
-    var total = calculateTotal();
     orderShuffle(total);
 
-    // await playOp('startOp');
-    await playOp('testOp');
+    if (currentRound==1){
+        await playOp('1start');
+        // await playOp('testOp');
+        await playRound(currentRound);
+    }
+    if (globalRound>1 && currentRound==2){
+        await playOp('1to2');
+        // await playOp('testOp');
+        await playRound(currentRound);
+    }
+    if (globalRound>2&&currentRound==3){
+        await playOp('2to3');
+        // await playOp('testOp');
+        await playRound(currentRound);
+    }
+    if (globalRound>2&&currentRound==4){
+        await playOp('3to4');
+        // await playOp('testOp');
+        await playRound(currentRound);
+    }
+    if (currentRound==globalRound+1){
+        await playOp('endOp');
+        gameEnd()
+    }
+}
 
-    levelOne();
+async function playRound(currentRound) {
+    var levels = {};
+
+    for (var i = 1; i <= 5; i++) {
+        levels[`Lv${i}Value`] = parseInt(document.getElementById(`Round${currentRound}_Lv${i}`).value, 10);
+    }
+
+    await levelOne(levels.Lv1Value, 0.5, 1.0);
+    await levelOne(levels.Lv2Value, 0.2, 1.2);
+    await levelTwo(levels.Lv3Value, 0.1, 1.5,false);
+    await levelTwo(levels.Lv4Value, 0.05, 1.8,false);
+    await levelTwo(levels.Lv5Value, 0, 2.0,true);
+        
 }
 
 function sortArr(arr) {
@@ -35,17 +88,20 @@ function sortArr(arr) {
     });
 }
 
-async function gameEnd() {
+function printResult(round){
     sortArr(l);
     sortArr(p);
+    document.getElementById(
+        "gameResult"
+    ).innerHTML +=`<br><span>라운드 ${round}</span><br>`;
     const lResult = `<span>지역</span><br> ${l.join(", ")}`;
     const pResult = `<span>비례</span><br> ${p.join(", ")}`;
     document.getElementById(
         "gameResult"
-    ).innerHTML = `<span><< 결과 >></span><br>${lResult}<br><br>${pResult}`;
+    ).innerHTML += `${lResult}<br><br>${pResult}<br>`;
+}
 
-    await playOp("endOp");
-
+async function gameEnd() {
     var btn = document.getElementById("button");
     btn.innerHTML = "RESET";
     btn.disabled = false;
@@ -67,12 +123,6 @@ function orderShuffle(total) {
     console.log(randOrder);
 }
 
-function setDelay(start, end) {
-    const delay =
-        Math.floor(Math.random() * (end - start) * 1000) + start * 1000;
-    return delay;
-}
-
 function playAudio(src, playbackRate = 1.0) {
     const fileExtension = src.includes(".") ? "" : ".mp3";
     const audio = new Audio("src/audio/" + src + fileExtension);
@@ -85,7 +135,7 @@ function playAudio(src, playbackRate = 1.0) {
     });
 }
 
-async function levelOneTwo(lv, delay, playbackRate) {
+async function levelOne(lv, delay, playbackRate) {
     for (var i = 0; i < lv; i++) {
         var paddedNumber = randOrder[currentIdx].toString().padStart(2, "0");
         if (randOrder[currentIdx] <= 20) {
@@ -102,7 +152,7 @@ async function levelOneTwo(lv, delay, playbackRate) {
     }
 }
 
-async function levelThreeToFive(lv, delay, playbackRate) {
+async function levelTwo(lv, delay, playbackRate,lastFlag) {
     for (var i = 0; i < lv; i++) {
         var curListName = `list${randOrder[currentIdx]}`;
         var currentList = lists[curListName];
@@ -128,27 +178,12 @@ async function levelThreeToFive(lv, delay, playbackRate) {
         await playAudio(currentFile, playbackRate);
         await new Promise((resolve) => setTimeout(resolve, delay));
         currentIdx++;
-
     }
+    if(lastFlag){
+        currentRound++;
+        gameStart(currentRound,globalRound);
+    }
+    
 }
 
-async function levelOne() {
-    await levelOneTwo(levels.Lv1Value, 0.5, 1.0);
-    levelTwo();
-}
-async function levelTwo() {
-    await levelOneTwo(levels.Lv2Value, 0.2, 1.2);
-    levelThree();
-}
-async function levelThree() {
-    await levelThreeToFive(levels.Lv3Value, 0.1, 1.5);
-    levelFour();
-}
-async function levelFour() {
-    await levelThreeToFive(levels.Lv4Value, 0.05, 1.8);
-    levelFive();
-}
-async function levelFive() {
-    await levelThreeToFive(levels.Lv5Value, 0, 2.0);
-    gameEnd();
-}
+

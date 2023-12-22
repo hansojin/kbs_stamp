@@ -1,6 +1,7 @@
 const q30 = [[2, 2, 2, 12, 12]];
 const q50 = [[1, 2, 2, 10, 10], [1, 1, 1, 10, 12]];
 const q100 = [[1, 2, 2, 10, 10], [1, 1, 1, 10, 12], [0, 0, 0, 12, 13], [0, 0, 0, 10, 15]];
+let globalRound;
 
 function generateLevelInputs(rounds, questionList) {
   const container = document.getElementById("roundsContainer");
@@ -48,7 +49,7 @@ function calculateTotal(rounds) {
       const inputValue = parseFloat(document.getElementById(`Round${round}_Lv${level}`).value) || 0;
       roundTotal += inputValue;
     }
-    document.getElementById(`Round${round}Total`).textContent = `총 ${roundTotal}문제`;
+    document.getElementById(`Round${rounds}Total`).textContent = `총 ${roundTotal}문제`;
   }
 }
 
@@ -61,18 +62,25 @@ function changeQuestionVersion() {
   switch (selectedOption.value) {
     case "30":
       questionList = q30;
+      globalRound =1;
       break;
     case "50":
       questionList = q50;
+      globalRound=2;
       break;
     case "100":
       questionList = q100;
+      globalRound=4;
       break;
     default:
       questionList = q30; 
+      globalRound=1;
       break;
   }
+
   generateLevelInputs(questionList.length,questionList);
+  calculateTotal(globalRound);
+
 }
 
 changeQuestionVersion();

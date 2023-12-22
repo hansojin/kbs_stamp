@@ -10,47 +10,20 @@
     <script src="src/srcList.js"></script>
 
     <label for="questionVersion">문제 선택</label>
-    <select id="questionVersion" onchange="changeQuestionVersion()" >
-      <option value="30">30 문제_총 1 라운드</option>
+    <select id="questionVersion" onchange="changeQuestionVersion()">
+      <option value="30" selected>30 문제_총 1 라운드</option>
       <option value="50">50 문제_총 2 라운드</option>
       <option value="100">100 문제_총 4 라운드</option>
     </select><br /><br />
 
-    <label for="Lv1">Lv1</label>
-    <input id="Lv1" value="2" onkeyup="calculateTotal()" /><br />
-    <label for="Lv2">Lv2</label>
-    <input id="Lv2" value="2" onkeyup="calculateTotal()" /><br />
-    <label for="Lv3">Lv3</label>
-    <input id="Lv3" value="2" onkeyup="calculateTotal()" /><br />
-    <label for="Lv4">Lv4</label>
-    <input id="Lv4" value="12" onkeyup="calculateTotal()" /><br />
-    <label for="Lv5">Lv5</label>
-    <input id="Lv5" value="12" onkeyup="calculateTotal()" /><br><br>
-    <div id="total" style="font-weight: bold;">총 30문제</div>
-    <script>
-      let levels = {
-        Lv1Value: 0,
-        Lv2Value: 0,
-        Lv3Value: 0,
-        Lv4Value: 0,
-        Lv5Value: 0,
-      };
-
-      function calculateTotal() {
-        levels.Lv1Value = parseFloat(document.getElementById("Lv1").value) || 0;
-        levels.Lv2Value = parseFloat(document.getElementById("Lv2").value) || 0;
-        levels.Lv3Value = parseFloat(document.getElementById("Lv3").value) || 0;
-        levels.Lv4Value = parseFloat(document.getElementById("Lv4").value) || 0;
-        levels.Lv5Value = parseFloat(document.getElementById("Lv5").value) || 0;
-        var total =
-          levels.Lv1Value + levels.Lv2Value + levels.Lv3Value + levels.Lv4Value + levels.Lv5Value;
-        document.getElementById("total").innerHTML = "총 : " + total + "문제";
-        return total;
-      }
-    </script>
-    <button id="button" onclick="gameStart()">START</button><br />
-    <div id="gameResult"></div><br />
-
+    <div id="roundsContainer"></div>
+    
     <script src="src/audioLogic.js"></script>
+    <script src="src/levelLogic.js"></script>
+
+    <button id="button" onclick="btnStart()">START</button><br />
+    <div id="gameResult"><span><< 결과 >></span><br></div><br />
+
+    
   </body>
 </html>
