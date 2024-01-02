@@ -94,3 +94,50 @@ done
 01_lp_50.mp3 02_lp_50.mp3 03_lp_50.mp3 04_lp_50.mp3 05_lp_50.mp3 06_lp_50.mp3 07_lp_50.mp3 08_lp_50.mp3 09_lp_50.mp3 10_lp_50.mp3 11_lp_50.mp3 12_lp_50.mp3 13_lp_50.mp3 14_lp_50.mp3 15_lp_50.mp3 16_lp_50.mp3 17_lp_50.mp3 18_lp_50.mp3 19_lp_50.mp3 20_lp_50.mp3 21_pp_50.mp3 22_pp_50.mp3 23_pp_50.mp3 24_pp_50.mp3 25_pp_50.mp3 26_pp_50.mp3 27_pp_50.mp3 28_pp_50.mp3 29_pp_50.mp3 30_pp_50.mp3 31_pp_50.mp3 32_pp_50.mp3 33_pp_50.mp3 34_pp_50.mp3 35_pp_50.mp3 36_pp_50.mp3 37_pp_50.mp3 38_pp_50.mp3 39_pp_50.mp3 40_pp_50.mp3 41_pp_50.mp3 42_pp_50.mp3 43_pp_50.mp3 44_pp_50.mp3 45_pp_50.mp3 46_pp_50.mp3 47_pp_50.mp3 48_pp_50.mp3 49_pp_50.mp3 p_50.mp3
 
 ```
+
+## 음원 filter
+
+특정한 이유로 해당 파일들을 구분하거나 강조하지 않고자 일부 번호를 filtering할 필요가 있어 filterAudio.sh 작성
+
+```
+#!/bin/bash
+
+shopt -s nullglob
+
+for ((i=31; i<=50; i++)); do
+    file_number=$(printf "%02d" $i)
+    files=(*_${file_number}.mp3)
+
+    # 길이가 11이면continue
+    for file in "${files[@]}"; do
+        if [[ "${#file}" -eq 11 ]]; then
+            continue
+        fi
+        # 앞 두자리가 21-30 또는 31-50 인경우에만 출력
+        if [[ "${file:0:2}" -ge 11 && "${file:0:2}" -le 20 || "${file:0:2}" -ge 31 && "${file:0:2}" -le 50 ]]; then
+            echo "$file"
+        fi
+    done
+done
+
+shopt -u nullglob
+
+```
+
+#### 결과
+
+```
+12_ll_11.mp3
+13_ll_11.mp3
+14_ll_11.mp3
+15_ll_11.mp3
+... (생략) ...
+43_pp_50.mp3
+44_pp_50.mp3
+45_pp_50.mp3
+46_pp_50.mp3
+47_pp_50.mp3
+48_pp_50.mp3
+49_pp_50.mp3
+
+```

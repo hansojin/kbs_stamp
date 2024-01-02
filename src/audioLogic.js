@@ -157,8 +157,7 @@ async function levelTwo(lv, delay, playbackRate,lastFlag) {
         var curListName = `list${randOrder[currentIdx]}`;
         var currentList = lists[curListName];
         var randomValue = Math.floor(Math.random() * 7);
-        if (randomValue === 0) {
-            var randomIndex = Math.floor(Math.random() * currentList.length);
+        if (randomValue === 0 && ((randOrder[currentIdx] >= 11 && randOrder[currentIdx] <= 20) || (randOrder[currentIdx] >= 31 && randOrder[currentIdx] <= 50))) {            var randomIndex = Math.floor(Math.random() * currentList.length);
             var currentFile = currentList[randomIndex];
         } else {
             var paddedNumber = randOrder[currentIdx].toString().padStart(2, '0');
