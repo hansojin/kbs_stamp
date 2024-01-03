@@ -112,10 +112,9 @@ async function gameEnd() {
 }
 
 function orderShuffle(total) {
-    // var numbers = Array.from({ length: 50 }, (_, i) => i + 1);
     var numbers = [];
     for (var i = 1; i <= 48; i++) {
-        if ((i <= 14) || (i >= 21)) {
+        if ((i <= 13) || (i >= 21)) {
             numbers.push(i);
         }
     } 
@@ -163,7 +162,8 @@ async function levelTwo(lv, delay, playbackRate,lastFlag) {
         var curListName = `list${randOrder[currentIdx]}`;
         var currentList = lists[curListName];
         var randomValue = Math.floor(Math.random() * 7);
-        if (randomValue === 0 && ((randOrder[currentIdx] >= 11 && randOrder[currentIdx] <= 20) || (randOrder[currentIdx] >= 31 && randOrder[currentIdx] <= 50))) {            var randomIndex = Math.floor(Math.random() * currentList.length);
+        if (randomValue === 0) {            
+            var randomIndex = Math.floor(Math.random() * currentList.length);
             var currentFile = currentList[randomIndex];
         } else {
             var paddedNumber = randOrder[currentIdx].toString().padStart(2, '0');
