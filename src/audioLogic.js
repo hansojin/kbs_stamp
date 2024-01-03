@@ -112,7 +112,13 @@ async function gameEnd() {
 }
 
 function orderShuffle(total) {
-    var numbers = Array.from({ length: 50 }, (_, i) => i + 1);
+    // var numbers = Array.from({ length: 50 }, (_, i) => i + 1);
+    var numbers = [];
+    for (var i = 1; i <= 48; i++) {
+        if ((i <= 14) || (i >= 21)) {
+            numbers.push(i);
+        }
+    } 
     for (var i = numbers.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
         var temp = numbers[i];
