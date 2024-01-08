@@ -43,22 +43,18 @@ async function gameStart(currentRound,globalRound) {
 
     if (currentRound==1){
         await playOp('1start');
-        // await playOp('testOp');
         await playRound(currentRound);
     }
     if (globalRound>1 && currentRound==2){
         await playOp('1to2');
-        // await playOp('testOp');
         await playRound(currentRound);
     }
     if (globalRound>2&&currentRound==3){
         await playOp('2to3');
-        // await playOp('testOp');
         await playRound(currentRound);
     }
     if (globalRound>2&&currentRound==4){
         await playOp('3to4');
-        // await playOp('testOp');
         await playRound(currentRound);
     }
     if (currentRound==globalRound+1){
