@@ -142,3 +142,9 @@ shopt -u nullglob
 49_pp_50.mp3
 
 ```
+
+---
+
+#### 참고 영상
+
+![screenshot](https://github.com/hansojin/kbs_stamp/assets/112622663/a659014a-080d-4792-a88e-710b881688e9)(https://youtu.be/Ki3GtxlIfkI)
