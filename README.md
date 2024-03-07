@@ -149,3 +149,32 @@ shopt -u nullglob
 #### 참고 영상
 
 [![screenshot](https://github.com/hansojin/kbs_stamp/assets/112622663/a659014a-080d-4792-a88e-710b881688e9)](https://youtu.be/Ki3GtxlIfkI)
+
+[🧡민심🧡 녹이는 내가 챌린지 꼴등이라니 🤯🤯 [찍신 챌린지 with 라이즈]](https://www.youtube.com/watch?v=Ki3GtxlIfkI)
+
+[더보이즈 허니즈 찍어 like a bee 🍯💛 [찍신 챌린지 with 더보이즈 선우, 에릭]](https://www.youtube.com/watch?v=o-hiLBEVGRo)
+
+[당황하는 정세운 실존❗️ [찍신 챌린지 with 정세운]](https://www.youtube.com/watch?v=V5DzG89FRXQ)
+
+[요즘은 강아지도 투표하나 봐🐶🫢 [찍신 챌린지 with 김종현]](https://www.youtube.com/watch?v=p28hFkJ589I)
+
+[???: 으 아빠 못생겼어 [찍신 챌린지 with 이천수, 박준형, 김지혜]](https://www.youtube.com/watch?v=2DYNwR0FLMk)
+
+[🚨뮤뱅 10분 전에 생긴 일🚨 [찍신 챌린지 with 씨스타19]](https://www.youtube.com/watch?v=sn2qMXU11-c)
+
+[ 5세대 기강 잡으러 옴💚 [찍신 챌린지 with B1A4]](https://www.youtube.com/watch?v=sjcDtl_gLX4)
+
+[이거 테레비 나오는 거여? 👵🏻👴🏻 [찍신 챌린지 in 향석리 경로당]](https://www.youtube.com/watch?v=zS156-00_zI)
+
+[ 정동원 자식 농사 대박🤖 [찍신 챌린지 with JD1]](https://www.youtube.com/watch?v=uXn4pc1_nPA)
+
+[이거...방송 나가도 돼?💦 [찍신 챌린지 with 트렌드지]](https://www.youtube.com/watch?v=RSbdqc198lo)
+
+[추위도 우릴 막을 수 없다🥶❄️ [찍신 챌린지 in 용평 스키장]](https://www.youtube.com/watch?v=rAH_SYrPWR0)
+
+[🚨기상캐스터 방송 중 퇴출🥵🥵 [찍신 챌린지 with KBS 기상캐스터]](https://www.youtube.com/watch?v=GK_E5mn8Ymw)
+
+[아무한테나 대기실을 열어주면 안 되는 이유🫢 [찍신 챌린지 with 설아]](https://www.youtube.com/watch?v=2wrOTTiB088)
+
+
+

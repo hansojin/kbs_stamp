@@ -4,6 +4,10 @@ let currentRound=1;
 let currentFile = null;
 var l = [];
 var p = [];
+const change = {1:'가',2:'나',3:'다',4:'라',5:'마',6:'바',7:'사',8:'아',9:'자',10:'차',11:'카',12:'타',13:'파',14:'하',
+    15:'거',16:'너',17:'더',18:'러',19:'머',20:'버',21:'서',22:'어',23:'저',24:'처',25:'커',26:'터',27:'퍼',28:'허'};
+
+
 
 function playOp(op) {
     const audio = new Audio("src/audio/op/" + op + ".mp3");
@@ -84,14 +88,20 @@ function sortArr(arr) {
     });
 }
 
+function convertToKorean(arr) {
+    return arr.map(number => change[number]).join(', ');  
+}
+
 function printResult(round){
     sortArr(l);
     sortArr(p);
     document.getElementById(
         "gameResult"
     ).innerHTML +=`<br><span>라운드 ${round}</span><br>`;
-    const lResult = `<span>지역</span><br> ${l.join(", ")}`;
-    const pResult = `<span>비례</span><br> ${p.join(", ")}`;
+    // const lResult = `<span>지역</span><br> ${l.join(", ")}`;
+    // const pResult = `<span>비례</span><br> ${p.join(", ")}`;
+    const lResult = `<span>지역</span><br> ${convertToKorean(l)}`;
+    const pResult = `<span>비례</span><br> ${convertToKorean(p)}`;
     document.getElementById(
         "gameResult"
     ).innerHTML += `${lResult}<br><br>${pResult}<br>`;
