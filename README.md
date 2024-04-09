@@ -176,5 +176,17 @@ shopt -u nullglob
 
 [아무한테나 대기실을 열어주면 안 되는 이유🫢 [찍신 챌린지 with 설아]](https://www.youtube.com/watch?v=2wrOTTiB088)
 
+[뭘 믿을지 몰라서 다 준비해 봤어 [찍신 챌린지 with 만남중창단]](https://www.youtube.com/watch?v=xDc_KR2xi9Q)
 
+[하이키 그렇게 안 봤는데 정말 무서운 사람이다😮 [찍신 챌린지 with 하이키]](https://www.youtube.com/watch?v=vHo6kFVsIxQ)
+
+[??: “백령도에 제대로 된 의사가 있으면 좋겠어요” [찍신 챌린지 in 백령도]](https://www.youtube.com/watch?v=10gqeLxmOds)
+
+[갑자기 이상해진 아이돌🫢 [찍신 챌린지 with 트리플에스 아리아]](https://www.youtube.com/watch?v=6BSo40ijfMM)
+
+[궤소리로 투표를 독려한다👽 [찍신 챌린지 with 궤도]](https://www.youtube.com/watch?v=whjXBk5DMVw)
+
+[수능도 안 찍었는데 이걸 찍다니...😱 [찍신 챌린지 in 포항공과대학교]](https://www.youtube.com/watch?v=pY2MAtGUsh4)
+
+[독도는 우리가 지킬게🛳️👮‍♂️ 자, 조회수는 누가 올릴래? [찍신 챌린지 with 해양경찰]](https://www.youtube.com/watch?v=211exQS6bJ8)
 
